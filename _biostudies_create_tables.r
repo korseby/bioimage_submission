@@ -68,6 +68,12 @@ output_tables <- paste0(species_name, ".tsv")
 photo_list_idx <- grep(x=input_photo_list$X.http...edamontology.org.data_1060.File.base.name, pattern=tolower(gsub(x=gsub(x=species_id,pattern="\\.",replacement=""), pattern=" ", replacement="_")))[1]
 photo_list_fileidx <- grep(x=input_photo_list$X.http...edamontology.org.data_1060.File.base.name, pattern=tolower(gsub(x=gsub(x=species_id,pattern="\\.",replacement=""), pattern=" ", replacement="_")))
 
+# Bug: Riccia bifurca
+if (species_id == "riccia_bifurca") {
+	photo_list_idx <- grep(x=input_photo_list$X.http...edamontology.org.data_1060.File.base.name, pattern=tolower(gsub(x=gsub(x=species_id,pattern="\\.",replacement=""), pattern=" ", replacement="_")))[grep(x=input_photo_list$X.http...edamontology.org.data_1060.File.base.name, pattern=tolower(gsub(x=gsub(x=species_id,pattern="\\.",replacement=""), pattern=" ", replacement="_"))) %in% grep(x=input_photo_list$X.http...rs.tdwg.org.dwc.terms.EarliestDateCollected.Collection.Date, pattern="2021")][1]
+	photo_list_fileidx <- grep(x=input_photo_list$X.http...edamontology.org.data_1060.File.base.name, pattern=tolower(gsub(x=gsub(x=species_id,pattern="\\.",replacement=""), pattern=" ", replacement="_")))[grep(x=input_photo_list$X.http...edamontology.org.data_1060.File.base.name, pattern=tolower(gsub(x=gsub(x=species_id,pattern="\\.",replacement=""), pattern=" ", replacement="_"))) %in% grep(x=input_photo_list$X.http...rs.tdwg.org.dwc.terms.EarliestDateCollected.Collection.Date, pattern="2021")]
+}
+
 # Bug: s.l.
 if (species_id == "scapania_irrigua") {
 	photo_list_fileidx <- photo_list_fileidx[!grepl(x=input_photo_list$X.http...edamontology.org.data_1060.File.base.name[photo_list_fileidx], pattern="_ssp")]
@@ -99,6 +105,15 @@ tab_files <- data.frame("Files" = list.files(input_dir, pattern="*"),
 # ---------- Read XMP meta-data ----------
 xmp_data <- exif_read(path=paste0(input_dir,"/",list.files(input_dir, pattern="*.xmp")), pipeline="json")
 xmp_data[,c("ExifToolVersion","FileSize","FileTypeExtension","SourceFile","FileName","Directory","FilePermissions","FileType","MIMEType")] <- list(NULL)
+for (i in 1:nrow(xmp_data)) {
+	for (j in 1:ncol(xmp_data)) {
+		xmp_data[i,j] <- paste0(unlist(xmp_data[i,j]),collapse="")
+	}
+}
+for (j in 1:ncol(xmp_data)) {
+	xmp_data[,j] <- as.character(xmp_data[,j])
+}
+xmp_data <- as.data.frame(xmp_data)
 
 
 
@@ -115,6 +130,13 @@ tab_meta <- data.frame("Species" = species_id,
 					   "Stack name" = "",
 					   "Stitch name" = "",
 					   "Description" = gsub(x=unlist(lapply(strsplit(x=input_files, split=" "), FUN=function(x){x<-x[-(1:3)];x<-paste(x,collapse=" ")})), pattern=" \\(.*", replacement=""),
+					   "Collector" = input_photo_list$X.http...rs.tdwg.org.dwc.terms.recordedBy.Collector[photo_list_idx],
+					   "Identified By" = input_photo_list$X.http...rs.tdwg.org.dwc.terms.identifiedBy.Determined[photo_list_idx],
+					   "Geodetic Datum" = input_photo_list$X.http...rs.tdwg.org.dwc.terms.geodeticDatum.Geodetic.datum[photo_list_idx],
+					   "Latitude" = input_photo_list$X.http...www.ebi.ac.uk.efo.EFO_0005020.Latitude[photo_list_idx],
+					   "Longitude" = input_photo_list$X.http...www.ebi.ac.uk.efo.EFO_0005021.Longitude[photo_list_idx],
+					   "Elevation" = input_photo_list$X.http...rs.tdwg.org.dwc.terms.verbatimElevation..Elevation[photo_list_idx],
+					   "Precision" = input_photo_list$X.http...rs.tdwg.org.dwc.terms.coordinatePrecision.Precision[photo_list_idx],
 					   "Magnification" = { x=gsub(x=input_files, pattern="(.*\\(|\\))", replacement="", perl=TRUE); x=gsub(x=x, pattern="IMG.*", replacement=""); x },
 					   "Contrast Method" = "",
 					   "Instrument" = "",
@@ -185,10 +207,11 @@ tab_meta$Objective[grep(x=tab_meta$Magnification, pattern="MP-E 3x")] <- "Canon 
 tab_meta$Objective[grep(x=tab_meta$Magnification, pattern="MP-E 4x")] <- "Canon MP-E 65mm 2.8 1-5x Macro"
 tab_meta$Objective[grep(x=tab_meta$Magnification, pattern="MP-E 5x")] <- "Canon MP-E 65mm 2.8 1-5x Macro"
 
+# Attach XMP data
+tab_meta <- cbind(tab_meta, xmp_data)
 
 
 # ---------- Save output files ----------
 write.table(tab_files, file=paste0(output_dir,"/",species_name," files.tsv"), sep="\t", row.names=FALSE)
 write.table(tab_meta, file=paste0(output_dir,"/",species_name,".tsv"), sep="\t", row.names=FALSE)
-
 
