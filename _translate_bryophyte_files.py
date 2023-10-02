@@ -55,6 +55,9 @@ def rename_files(dest_files):
 	new_names = [re.sub("_Archegonienstand", "_archegoniophore", i, flags=re.IGNORECASE) for i in new_names]
 	new_names = [re.sub("_Archegonien", "_archegonia", i, flags=re.IGNORECASE) for i in new_names]
 	new_names = [re.sub("_Archegonium", "_archegonium", i, flags=re.IGNORECASE) for i in new_names]
+	new_names = [re.sub("_assimilationslamellen", "_assimilation_lamellae", i, flags=re.IGNORECASE) for i in new_names]
+	new_names = [re.sub("_atemporen", "_air_pores", i, flags=re.IGNORECASE) for i in new_names]
+	new_names = [re.sub("_atempore", "_air_pore", i, flags=re.IGNORECASE) for i in new_names]
 	new_names = [re.sub("_Aufsicht", "_anterior_view", i, flags=re.IGNORECASE) for i in new_names]
 	new_names = [re.sub("_Balgen", "_macro_bellow", i, flags=re.IGNORECASE) for i in new_names]
 	new_names = [re.sub("_Balgengeraet", "_macro_bellow", i, flags=re.IGNORECASE) for i in new_names]
@@ -62,6 +65,8 @@ def rename_files(dest_files):
 	new_names = [re.sub("_basaler", "_basal", i, flags=re.IGNORECASE) for i in new_names]
 	new_names = [re.sub("_basalen", "_basal", i, flags=re.IGNORECASE) for i in new_names]
 	new_names = [re.sub("_basale", "_basal", i, flags=re.IGNORECASE) for i in new_names]
+	new_names = [re.sub("_bauchschuppen", "_ventral_scales", i, flags=re.IGNORECASE) for i in new_names]
+	new_names = [re.sub("_bauchschuppe", "_ventral_scale", i, flags=re.IGNORECASE) for i in new_names]
 	new_names = [re.sub("_Blatt Querschnitt", "_leaf_cross_section", i, flags=re.IGNORECASE) for i in new_names]
 	new_names = [re.sub("_Blattachsel", "_leaf_axis", i, flags=re.IGNORECASE) for i in new_names]
 	new_names = [re.sub("_Blattbasis", "_leaf_base", i, flags=re.IGNORECASE) for i in new_names]
@@ -103,6 +108,9 @@ def rename_files(dest_files):
 	new_names = [re.sub("_gezaehnte", "_toothed", i, flags=re.IGNORECASE) for i in new_names]
 	new_names = [re.sub("_gezaehnt", "_toothed", i, flags=re.IGNORECASE) for i in new_names]
 	new_names = [re.sub("_Habitus", "_stature", i, flags=re.IGNORECASE) for i in new_names]
+	new_names = [re.sub("_Halskanalzellen", "_neck_canal_cells", i, flags=re.IGNORECASE) for i in new_names]
+	new_names = [re.sub("_Halskanalzelle", "_neck_canal_cell", i, flags=re.IGNORECASE) for i in new_names]
+	new_names = [re.sub("_Halskanal", "_neck_canal", i, flags=re.IGNORECASE) for i in new_names]
 	new_names = [re.sub("_herablaufendes", "_winged", i, flags=re.IGNORECASE) for i in new_names]
 	new_names = [re.sub("_herablaufender", "_winged", i, flags=re.IGNORECASE) for i in new_names]
 	new_names = [re.sub("_herablaufende", "_winged", i, flags=re.IGNORECASE) for i in new_names]
@@ -137,6 +145,7 @@ def rename_files(dest_files):
 	new_names = [re.sub("_Perichaetialblatt", "_perichaetial_leaf", i, flags=re.IGNORECASE) for i in new_names]
 	new_names = [re.sub("_Pflanzenspitze", "_plant_apex", i, flags=re.IGNORECASE) for i in new_names]
 	new_names = [re.sub("_Pflanzen", "_plants", i, flags=re.IGNORECASE) for i in new_names]
+	new_names = [re.sub("_poren", "_pores", i, flags=re.IGNORECASE) for i in new_names]
 	new_names = [re.sub("_Querschnitt", "_cross_section", i, flags=re.IGNORECASE) for i in new_names]
 	new_names = [re.sub("_Quer", "_cross_section", i, flags=re.IGNORECASE) for i in new_names]
 	new_names = [re.sub("_Rand", "_margin", i, flags=re.IGNORECASE) for i in new_names]
@@ -151,6 +160,7 @@ def rename_files(dest_files):
 	new_names = [re.sub("_Sporen", "_spores", i, flags=re.IGNORECASE) for i in new_names]
 	new_names = [re.sub("_Spore", "_spore", i, flags=re.IGNORECASE) for i in new_names]
 	new_names = [re.sub("_Stamm", "_stem", i, flags=re.IGNORECASE) for i in new_names]
+	new_names = [re.sub("_standort", "_habitat", i, flags=re.IGNORECASE) for i in new_names]
 	new_names = [re.sub("_Staemmchen", "_stem", i, flags=re.IGNORECASE) for i in new_names]
 	new_names = [re.sub("_Thallus", "_thallus", i, flags=re.IGNORECASE) for i in new_names]
 	new_names = [re.sub("_und", "_and", i, flags=re.IGNORECASE) for i in new_names]
@@ -178,7 +188,7 @@ def rename_files(dest_files):
 	# Show renaming action
 	if (__DRY_RUN__):
 		print("The following renaming in batches will be done:")
-		base_names = [re.sub("(IMG_\d\d\d\d |IMG_\d\d\d\d-\d\d\d\d |\.CR(2|3)|\.TIF|\.JPG|\.xmp)", "", i, flags=re.IGNORECASE) for i in new_names]
+		base_names = [re.sub("(IMG_\d\d\d\d |IMG_\d\d\d\d-\d\d\d\d |\.CR(2|3)|\.ome\.tiff|\.tiff|\.TIF|\.jpeg|\.JPG|\.xmp)", "", i, flags=re.IGNORECASE) for i in new_names]
 		for i, label in enumerate(dict.fromkeys(base_names), start=0):
 			print( label )
 	
@@ -204,7 +214,7 @@ def rename_files(dest_files):
 # -------------------- MAIN --------------------
 if (__RECURSIVE__ == False):
 	# Rename files
-	dest_files = sorted( filter(lambda p: p.suffix in {".CR2", ".CR3", ".DNG", ".TIF", ".JPG", ".jpeg", ".xmp", ".XMP"}, Path(dest_dir).glob("*")) )
+	dest_files = sorted( filter(lambda p: p.suffix in {".CR2", ".CR3", ".DNG", ".TIF", ".tiff", ".jpeg", ".JPG", ".jpeg", ".xmp", ".XMP"}, Path(dest_dir).glob("*")) )
 	rename_files(dest_files)
 else:
 	# Rename directories first
@@ -212,7 +222,7 @@ else:
 	rename_files(dest_dirs)
 	
 	# Rename files afterwards in all subdirectories
-	dest_files = sorted( filter(lambda p: p.suffix in {".CR2", ".CR3", ".DNG", ".TIF", ".JPG", ".xmp", ".XMP"}, Path(dest_dir).rglob("*")) )
+	dest_files = sorted( filter(lambda p: p.suffix in {".CR2", ".CR3", ".DNG", ".TIF", ".tiff", ".jpeg", ".JPG", ".xmp", ".XMP"}, Path(dest_dir).rglob("*")) )
 	rename_files(dest_files)
 
 

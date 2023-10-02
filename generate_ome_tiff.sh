@@ -2,7 +2,7 @@
 
 IFS="
 "
-export JAVA_OPTS='-Djna.library.path=/usr/local/Cellar/c-blosc/1.21.1/lib'
+export JAVA_OPTS='-Djna.library.path=/usr/local/Cellar/c-blosc/1.21.4/lib'
 
 curdir="$(pwd)"
 for j in $(ls -d */ | sort); do
@@ -10,8 +10,8 @@ for j in $(ls -d */ | sort); do
 	k="$(echo $j | perl -pe 's/\///g')"
 	cd "$k"
 	echo "$(echo $k | perl -pe 's/_/_\</' | perl -pe 's/ /\> /').TIF" > "$k.pattern"
-	/opt/src/bioformats2raw-0.4.0/bin/bioformats2raw --max_workers=48 --max_cached_tiles=6400 "${k}.pattern" "${k}.zarr" && \
-	/opt/src/raw2ometiff-0.3.0/bin/raw2ometiff --max_workers=48 "${k}.zarr" "${k}.ome.tiff" && \
+	/opt/share/bioformats2raw-0.6.1/bin/bioformats2raw "${k}.pattern" "${k}.zarr" && \
+	/opt/share/raw2ometiff-0.4.1/bin/raw2ometiff "${k}.zarr" "${k}.ome.tiff" && \
 	mv "${k}.ome.tiff" .. && \
 	cd .. && \
 	sync && \

@@ -22,7 +22,7 @@ options(stringAsfactors=FALSE, useFancyQuotes=FALSE)
 
 # Multicore parallel
 #nSlaves <- detectCores(all.tests=FALSE, logical=FALSE)
-#nSlaves <- 16
+#nSlaves <- 16/Users/admin/Desktop/_liverworts_photos_list.csv
 #registerDoMC(nSlaves)
 
 
@@ -47,7 +47,7 @@ output_dir <- args[5] # "/Volumes/micromoss_05/BioStudies"
 
 # ---------- Read input data ----------
 # Generate species IDs
-species_id <- gsub(x=tolower(gsub(x=gsub(x=gsub(x=basename(input_dir), pattern="\\.tsv.*", replacement=""), pattern="subsp", replacement="ssp"), pattern=" s\\.l\\.", replacement="")), pattern=" ", replacement="_")
+species_id <- gsub(x=tolower(gsub(x=gsub(x=gsub(x=basename(input_dir), pattern="\\.tsv.*", replacement=""), pattern="subsp.", replacement="ssp"), pattern=" s\\.l\\.", replacement="")), pattern=" ", replacement="_")
 species_name <- gsub(x=gsub(x=gsub(x=basename(input_dir), pattern="\\.tsv.*", replacement=""), pattern="subsp", replacement="ssp"), pattern=" s\\.l\\.", replacement="")
 print(paste0(species_name, " (", species_id, ")"))
 
@@ -55,7 +55,7 @@ print(paste0(species_name, " (", species_id, ")"))
 input_photo_list <- read.table(file=input_photo_list_filename, header=TRUE, sep=";", quote="\"", comment.char="", fill=FALSE, dec=".", stringsAsFactors=FALSE)#, encoding="UTF-8", fileEncoding="UTF-8")
 
 # Get raw images
-input_files <- gsub(x=list.files(input_dir, pattern="*.TIF"), pattern=".TIF", replacement="")
+input_files <- gsub(x=list.files(input_dir, pattern="*.xmp"), pattern=".xmp", replacement="")
 
 # Create output objects
 output_files <- paste0(species_name, " files.txt")
@@ -123,9 +123,9 @@ tab_meta <- data.frame("Species" = species_id,
 					   "Taxon" = input_photo_list$X.http...rs.tdwg.org.dwc.terms.acceptedScientificName.Species.name[photo_list_idx],
 					   "Acquisition Date" = xmp_data$DateTimeOriginal,
 					   "Voucher record identifier" = input_photo_list$X.http...rs.tdwg.org.dwc.terms.PreservedSpecimen.Voucher.specimen[photo_list_idx],
-					   "File list" = paste0(species_name, "/", list.files(input_dir, pattern="*.(HEIC|ORF|CR2|CR3)")),
-					   "Raw Camera file list" = list.files(input_dir, pattern="*.(HEIC|ORF|CR2|CR3)"),
-					   "Derived raw file list" = list.files(input_dir, pattern="*.TIF"),
+					   "File list" = paste0(species_name, "/", list.files(input_dir, pattern="*.(JPG|HEIC|ORF|CR2|CR3)")),
+					   "Raw Camera file list" = list.files(input_dir, pattern="*.(JPG|HEIC|ORF|CR2|CR3)"),
+					   "Derived raw file list" = gsub(x=list.files(input_dir, pattern="*.(JPG|HEIC|ORF|CR2|CR3)"), pattern="*.(HEIC|ORF|CR2|CR3)", replacement=".TIF"),
 					   "Raw settings file list" = list.files(input_dir, pattern="*.xmp"),
 					   "Stack name" = "",
 					   "Stitch name" = "",

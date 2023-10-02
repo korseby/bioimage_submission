@@ -60,6 +60,7 @@ translate_photo_name <- function(name) {
 	name <- gsub(x=name, pattern="archegonienstand", replacement="archegoniophore")
 	name <- gsub(x=name, pattern="archegonien", replacement="archegonia")
 	name <- gsub(x=name, pattern="archegonium", replacement="archegonium")
+	name <- gsub(x=name, pattern="assimilationslamellen", replacement="assimilation_lamellae")
 	name <- gsub(x=name, pattern="atemporen", replacement="air_pores")
 	name <- gsub(x=name, pattern="atempore", replacement="air_pore")
 	name <- gsub(x=name, pattern="aufsicht", replacement="anterior_view")
@@ -113,6 +114,9 @@ translate_photo_name <- function(name) {
 	name <- gsub(x=name, pattern="gezaehnte", replacement="toothed")
 	name <- gsub(x=name, pattern="gezaehnt", replacement="toothed")
 	name <- gsub(x=name, pattern="habitus", replacement="stature")
+	name <- gsub(x=name, pattern="halskanalzellen", replacement="neck_canal_cells")
+	name <- gsub(x=name, pattern="halskanalzelle", replacement="neck_canal_cell")
+	name <- gsub(x=name, pattern="halskanal", replacement="neck_canal")
 	name <- gsub(x=name, pattern="herablaufendes", replacement="winged")
 	name <- gsub(x=name, pattern="herablaufender", replacement="winged")
 	name <- gsub(x=name, pattern="herablaufende", replacement="winged")
@@ -147,6 +151,7 @@ translate_photo_name <- function(name) {
 	name <- gsub(x=name, pattern="perichaetialblatt", replacement="perichaetial_leaf")
 	name <- gsub(x=name, pattern="pflanzenspitze", replacement="plant_apex")
 	name <- gsub(x=name, pattern="pflanzen", replacement="plants")
+	name <- gsub(x=name, pattern="poren", replacement="pores")
 	name <- gsub(x=name, pattern="querschnitt", replacement="cross_section")
 	name <- gsub(x=name, pattern="quer", replacement="cross_section")
 	name <- gsub(x=name, pattern="rand", replacement="margin")
@@ -162,6 +167,7 @@ translate_photo_name <- function(name) {
 	name <- gsub(x=name, pattern="spore", replacement="spore")
 	name <- gsub(x=name, pattern="staemmchen", replacement="stem")
 	name <- gsub(x=name, pattern="stamm", replacement="stem")
+	name <- gsub(x=name, pattern="standort", replacement="habitat")
 	name <- gsub(x=name, pattern="thallus", replacement="thallus")
 	name <- gsub(x=name, pattern="und", replacement="and")
 	name <- gsub(x=name, pattern="unreifes", replacement="immature")
@@ -194,7 +200,7 @@ translate_photo_name <- function(name) {
 # ---------- translate photo list ----------
 if (TRUE) {
 	# Input CSV list containing a list of all the segmented images + meta-data
-	input_photo_list <- read.table(file="~/Desktop/liverworts/_photos/_liverworts_photos_list.csv", header=TRUE, sep=";", quote="\"", comment.char="", fill=FALSE, dec=".", stringsAsFactors=FALSE)#, encoding="UTF-8", fileEncoding="UTF-8")
+	input_photo_list <- read.table(file=input_photo_list_filename, header=TRUE, sep=";", quote="\"", comment.char="", fill=FALSE, dec=".", stringsAsFactors=FALSE)#, encoding="UTF-8", fileEncoding="UTF-8")
 	
 	input_photo_list$X.http...edamontology.org.data_1060.File.base.name <- translate_photo_name(input_photo_list$X.http...edamontology.org.data_1060.File.base.name)
 	
